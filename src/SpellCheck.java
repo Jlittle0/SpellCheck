@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Spell Check
@@ -25,7 +26,7 @@ public class SpellCheck {
 
         // Array that stores the indicies of the first occurence of each prefix with the
         // corresponding two digit letters with a mapping to 01 and z being 26.
-        long[] prefixes = new long[26262626];
+        int[] prefixes = new int[26262626];
         ArrayList<String> notRealWords = new ArrayList<>();
 
 
@@ -40,7 +41,7 @@ public class SpellCheck {
                 num = obtainIndex(prefixes, dictionary[i].length(), dictionary[i]);
             // If this is the first instant of this specific prefix, place the index of the word in
             // the dictionary, into the prefix array to mark it as such.
-            if (prefixes[num] != 0)
+            if (prefixes[num] == 0)
                 prefixes[num] = i;
         }
 
@@ -50,9 +51,16 @@ public class SpellCheck {
             boolean located = false;
             if (word.length() > PREFIX_LENGTH) {
                 value = obtainIndex(prefixes, PREFIX_LENGTH, word);
-                while (temp == 0) {
-
+                int neighbor = findNextNeighbor(prefixes, value);
+                for (int i = prefixes[value]; i < prefixes[neighbor]; i++) {
+                    if (dictionary[i].equals(word)) {
+                        located = true;
+                        break;
+                    }
                 }
+                if (!located && notRealWords.indexOf(word) == -1)
+                    notRealWords.add(word);
+
             }
             else {
                 value = obtainIndex(prefixes, word.length(), word);
@@ -61,18 +69,55 @@ public class SpellCheck {
             }
         }
 
+
+
+        int temp = prefixes[obtainIndex(prefixes, PREFIX_LENGTH, "whose")];
+        System.out.println(obtainIndex(prefixes, PREFIX_LENGTH, "whose"));
+        System.out.println(prefixes[temp]);
+        System.out.println(prefixes[findNextNeighbor(prefixes, temp)]);
+
+        boolean found = false;
+        int temporary = 1;
+        while (!found && temporary + temp < 26262626) {
+            if (prefixes[temp + temporary] != 0)
+                found = true;
+            temporary++;
+        }
+        if (found) {
+            System.out.println(temporary + temp - 1);
+        }
+
+        System.out.println(notRealWords);
         String[] mispelledWords = new String[notRealWords.size()];
         return notRealWords.toArray(mispelledWords);
     }
 
-    public int obtainIndex(long[] prefixes, int length, String word) {
+    public int obtainIndex(int[] prefixes, int length, String word) {
         String temp = "";
         for (int i = 0; i < length; i++) {
-            if ((word.charAt(i) - 96) < 10)
-                temp += "0" + (word.charAt(i) - 96);
+            if (Character.isAlphabetic(word.charAt(i))) {
+                if ((word.charAt(i) - 96) < 10)
+                    temp += "0" + (word.charAt(i) - 96);
+                else
+                    temp += word.charAt(i) - 96;
+            }
             else
-                temp += word.charAt(i) - 96;
+                temp += 27;
         }
         return (int)Long.parseLong(temp);
+    }
+
+    public int findNextNeighbor(int[] prefixes, int index) {
+        boolean found = false;
+        int temp = 1;
+        while (!found && temp + index < 26262626) {
+            if (prefixes[index + temp] != 0)
+                found = true;
+            temp++;
+        }
+        if (found) {
+            return temp + index - 1;
+        }
+        return index;
     }
 }
