@@ -1,9 +1,9 @@
 Name: YOUR NAME HERE
 
-| Date    |  Time  |                                     Update |
-|:--------|:------:|-------------------------------------------:|
-| April 5 | 9-10pm | I tried to write abstract, efficient code. |
-|         |        |                                            |
+| Date         |   Time    |                                                                                                                                                                                                                                                                                                                                                                                                                                                           Update |
+|:-------------|:---------:|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| April 5      |  9-10pm   |                                                                                                                                                                                                                                                                                                                                                                                                                       I tried to write abstract, efficient code. |
+| September 24 | 6:15-7:45 | I'm going to probably split this into three parts later, and include the classtime session, but essentially I was implementing my idea of creating a prefixes array and using that for faster lookups. I decided to choose a length forthe prefixes of 4 because the average length of a word in the dictionary is slightly higher than that and felt that it was a good number. I essentially run through the dictionary, map every word that has a new prefix, |
 
 
 To add a new row to the table, click into a cell and then hit shift-enter.
