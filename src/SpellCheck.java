@@ -50,12 +50,15 @@ public class SpellCheck {
         }
 
         for (String word : text) {
+            // For every word in the text, check if it's greater or equal to prefix length, then
+            // find its prefix value, then see if that's in the dictionary or not or search through
+            // the dictionary until the next valid prefix to see if the word appears there.
             int value = 0;
             int temp = 0;
             boolean located = false;
             if (word.length() > PREFIX_LENGTH) {
                 value = obtainIndex(prefixes, PREFIX_LENGTH, word);
-                if (value > 26262626)
+                if (value > numPrefixes)
                     System.out.println(word);
                 int neighbor = findNextNeighbor(prefixes, value);
                 for (int i = prefixes[value]; i < prefixes[neighbor]; i++) {
@@ -80,6 +83,7 @@ public class SpellCheck {
     }
 
     public int obtainIndex(int[] prefixes, int length, String word) {
+        // Converts the first (length) letters of the word into integers and returns that as an int
         String temp = "";
         for (int i = 0; i < length; i++) {
             if (Character.isAlphabetic(word.charAt(i)) && word.charAt(i) < 123) {
@@ -95,6 +99,7 @@ public class SpellCheck {
     }
 
     public int findNextNeighbor(int[] prefixes, int index) {
+        // Finds the next valid prefix that appears in the dictionary, used for faster searches.
         boolean found = false;
         int temp = 1;
         while (!found && temp + index < 26262626) {
