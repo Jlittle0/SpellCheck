@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 /**
  * Spell Check
@@ -24,10 +25,8 @@ public class SpellCheck {
      */
     public String[] checkWords(String[] text, String[] dictionary) {
 
-        Node dictRoot = new Node(false, new Node[SIZE]);
-        Trie dictionaryTrie = new Trie(dictRoot);
-        Node misRoot = new Node(false, new Node[SIZE]);
-        Trie misspelledTrie = new Trie(misRoot);
+        Trie dictionaryTrie = new Trie(new Node(false, new Node[SIZE]));
+        Trie misspelledTrie = new Trie(new Node(false, new Node[SIZE]));
         ArrayList<String> badWords = new ArrayList<>();
 
 //      For every word in the dictionary
@@ -42,6 +41,18 @@ public class SpellCheck {
             }
         }
 
+        badWords.sort(Comparator.naturalOrder());
+        String previousWord = "";
+        int count = 0;
+        for (String word : badWords) {
+            if (word.equals(previousWord)) {
+                System.out.print(word + "., ");
+                count++;
+            }
+            previousWord = word;
+        }
+        System.out.println();
+        System.out.println(badWords.size() - count);
         for (String word : badWords)
         System.out.print(word + ", ");
         System.out.println();
