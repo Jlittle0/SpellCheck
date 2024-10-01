@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class SpellCheck {
 
-    int PREFIX_LENGTH = 4;
+    public static final int SIZE = 255;
 
 
     /**
@@ -24,92 +24,29 @@ public class SpellCheck {
      */
     public String[] checkWords(String[] text, String[] dictionary) {
 
-        // Array that stores the indicies of the first occurence of each prefix with the
-        // corresponding two digit letters with a mapping to 01 and z being 26.
-        String holder = "";
-        for (int i = 0; i < PREFIX_LENGTH; i++)
-            holder += "26";
-        int numPrefixes = (int)Long.parseLong(holder);
-        int[] prefixes = new int[numPrefixes];
-        ArrayList<String> notRealWords = new ArrayList<>();
-
+        Node dictRoot = new Node(false, new Node[SIZE]);
+        Trie dictionaryTrie = new Trie(dictRoot);
+        Node misRoot = new Node(false, new Node[SIZE]);
+        Trie misspelledTrie = new Trie(misRoot);
+        ArrayList<String> badWords = new ArrayList<>();
 
 //      For every word in the dictionary
-        for (int i = 0; i < dictionary.length; i++) {
-            int num = 0;
-            // Take each of their letters, assign an integer value, then convert into a series of
-            // integers that represents its location in the map.
-            if (dictionary[i].length() > PREFIX_LENGTH)
-                num = obtainIndex(prefixes, PREFIX_LENGTH, dictionary[i]);
-            else
-                num = obtainIndex(prefixes, dictionary[i].length(), dictionary[i]);
-            // If this is the first instant of this specific prefix, place the index of the word in
-            // the dictionary, into the prefix array to mark it as such.
-            if (prefixes[num] == 0)
-                prefixes[num] = i;
+        for (String word : dictionary) {
+            dictionaryTrie.insert(word);
         }
 
         for (String word : text) {
-            // For every word in the text, check if it's greater or equal to prefix length, then
-            // find its prefix value, then see if that's in the dictionary or not or search through
-            // the dictionary until the next valid prefix to see if the word appears there.
-            int value = 0;
-            int temp = 0;
-            boolean located = false;
-            if (word.length() > PREFIX_LENGTH) {
-                value = obtainIndex(prefixes, PREFIX_LENGTH, word);
-                if (value > numPrefixes)
-                    System.out.println(word);
-                int neighbor = findNextNeighbor(prefixes, value);
-                for (int i = prefixes[value]; i < prefixes[neighbor]; i++) {
-                    if (dictionary[i].equals(word)) {
-                        located = true;
-                        break;
-                    }
-                }
-                if (!located && notRealWords.indexOf(word) == -1 && !word.equals("a"))
-                    notRealWords.add(word);
-
-            }
-            else {
-                value = obtainIndex(prefixes, word.length(), word);
-                if ((prefixes[value] == 0 && notRealWords.indexOf(word) == -1 && !word.equals("a")) || !dictionary[prefixes[value]].equals(word) && notRealWords.indexOf(word) == -1)
-                    notRealWords.add(word);
+            if (!dictionaryTrie.lookUp(word) && !misspelledTrie.lookUp(word)) {
+                misspelledTrie.insert(word);
+                badWords.add(word);
             }
         }
 
-        String[] mispelledWords = new String[notRealWords.size()];
-        return notRealWords.toArray(mispelledWords);
-    }
-
-    public int obtainIndex(int[] prefixes, int length, String word) {
-        // Converts the first (length) letters of the word into integers and returns that as an int
-        String temp = "";
-        for (int i = 0; i < length; i++) {
-            if (Character.isAlphabetic(word.charAt(i)) && word.charAt(i) < 123) {
-                if ((word.charAt(i) - 96) < 10)
-                    temp += "0" + (word.charAt(i) - 96);
-                else
-                    temp += word.charAt(i) - 96;
-            }
-            else
-                temp += "00";
-        }
-        return (int)Long.parseLong(temp);
-    }
-
-    public int findNextNeighbor(int[] prefixes, int index) {
-        // Finds the next valid prefix that appears in the dictionary, used for faster searches.
-        boolean found = false;
-        int temp = 1;
-        while (!found && temp + index < 26262626) {
-            if (prefixes[index + temp] != 0)
-                found = true;
-            temp++;
-        }
-        if (found) {
-            return temp + index - 1;
-        }
-        return index;
+        System.out.println(dictionaryTrie.lookUp("dinah'll"));
+        System.out.println(misspelledTrie.lookUp("dinah'll"));
+        for (String word : badWords)
+        System.out.print(word + ", ");
+        System.out.println();
+        return badWords.toArray(new String[badWords.size()]);
     }
 }
