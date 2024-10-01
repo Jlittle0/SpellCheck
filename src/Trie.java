@@ -34,10 +34,10 @@ public class Trie {
             }
             currentNode = currentNode.getNodes()[s.charAt(i)];
         }
-        return currentNode.isFinalLetter;
-    }
-
-    public void printTrie() {
-
+        if (s.equals("dinah'll")) {
+            System.out.println("test04");
+            System.out.println(currentNode.isWord());
+        }
+        return currentNode.isWord();
     }
 }

@@ -42,8 +42,6 @@ public class SpellCheck {
             }
         }
 
-        System.out.println(dictionaryTrie.lookUp("dinah'll"));
-        System.out.println(misspelledTrie.lookUp("dinah'll"));
         for (String word : badWords)
         System.out.print(word + ", ");
         System.out.println();

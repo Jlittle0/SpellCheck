@@ -1,5 +1,5 @@
 public class Node {
-    boolean isFinalLetter;
+    private boolean isFinalLetter;
     Node[] next;
 
     public Node (boolean isFinalLetter, Node[] next) {
