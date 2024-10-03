@@ -26,6 +26,11 @@ public class TSTNode {
         nodes[num] = new TSTNode(isFinalLetter, c);
     }
 
+    public void setValue(boolean isFinalLetter, char c) {
+        this.letter = c;
+        this.isFinalLetter = isFinalLetter;
+    }
+
     public TSTNode getNode(int num) {
         return nodes[num];
     }

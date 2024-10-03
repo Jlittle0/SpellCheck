@@ -24,7 +24,11 @@ public class SpellCheck {
      * @return String[] of all mispelled words in the order they appear in text. No duplicates.
      */
     public String[] checkWords(String[] text, String[] dictionary) {
+//        return checkWordsTrie(text, dictionary);
+        return checkWordsTST(text, dictionary);
+    }
 
+    public String[] checkWordsTrie(String[] text, String[] dictionary) {
         Trie dictionaryTrie = new Trie(new Node(false, new Node[SIZE]));
         Trie misspelledTrie = new Trie(new Node(false, new Node[SIZE]));
         ArrayList<String> badWords = new ArrayList<>();
@@ -54,8 +58,20 @@ public class SpellCheck {
         System.out.println();
         System.out.println(badWords.size() - count);
         for (String word : badWords)
-        System.out.print(word + ", ");
+            System.out.print(word + ", ");
         System.out.println();
         return badWords.toArray(new String[badWords.size()]);
+    }
+
+    public String[] checkWordsTST(String[] text, String[] dictionary) {
+        TST dictionaryTST = new TST();
+        TST misspelledTST = new TST();
+
+//        for (String word : dictionary) {
+//            dictionaryTST.insert(word);
+//        }
+        dictionaryTST.insertTest("hello");
+
+        return null;
     }
 }
