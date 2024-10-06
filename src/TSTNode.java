@@ -1,5 +1,5 @@
 public class TSTNode {
-    private TSTNode[] nodes;
+    public TSTNode[] nodes;
     private boolean isFinalLetter;
     private char letter;
 
@@ -24,11 +24,6 @@ public class TSTNode {
 
     public void setNode(int num, boolean isFinalLetter, char c) {
         nodes[num] = new TSTNode(isFinalLetter, c);
-    }
-
-    public void setValue(boolean isFinalLetter, char c) {
-        this.letter = c;
-        this.isFinalLetter = isFinalLetter;
     }
 
     public TSTNode getNode(int num) {

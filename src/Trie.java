@@ -8,16 +8,16 @@ public class Trie {
 
     public void insert(String s) {
         Node currentNode = root;
+        boolean isLast;
         for (int i = 0; i < s.length(); i++) {
-            if (currentNode.getNodes()[s.charAt(i)] == null && i != s.length() - 1) {
-                currentNode.getNodes()[s.charAt(i)] = new Node(false, new Node[255]);
+            // Felt old version was very bulky so found out how to do this in one line
+             isLast = i == s.length() -1 ? true : false;
+            if (currentNode.getNodes()[s.charAt(i)] == null) {
+                currentNode.getNodes()[s.charAt(i)] = new Node(isLast, new Node[255]);
                 currentNode = currentNode.getNodes()[s.charAt(i)];
             }
-            else if (currentNode.getNodes()[s.charAt(i)] == null && i == s.length() - 1) {
-                currentNode.getNodes()[s.charAt(i)] = new Node(true, new Node[255]);
-            }
             else if (currentNode.getNodes()[s.charAt(i)] != null && i == s.length() - 1) {
-                currentNode.getNodes()[s.charAt(i)] = new Node(true, new Node[255]);
+                currentNode.getNodes()[s.charAt(i)].setFinalLetter();
             }
             else {
                 currentNode = currentNode.getNodes()[s.charAt(i)];
@@ -33,10 +33,6 @@ public class Trie {
                 return false;
             }
             currentNode = currentNode.getNodes()[s.charAt(i)];
-        }
-        if (s.equals("dinah'll")) {
-            System.out.println("test04");
-            System.out.println(currentNode.isWord());
         }
         return currentNode.isWord();
     }

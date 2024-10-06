@@ -24,8 +24,8 @@ public class SpellCheck {
      * @return String[] of all mispelled words in the order they appear in text. No duplicates.
      */
     public String[] checkWords(String[] text, String[] dictionary) {
-//        return checkWordsTrie(text, dictionary);
-        return checkWordsTST(text, dictionary);
+        return checkWordsTrie(text, dictionary);
+//        return checkWordsTST(text, dictionary);
     }
 
     public String[] checkWordsTrie(String[] text, String[] dictionary) {
@@ -45,21 +45,6 @@ public class SpellCheck {
             }
         }
 
-        badWords.sort(Comparator.naturalOrder());
-        String previousWord = "";
-        int count = 0;
-        for (String word : badWords) {
-            if (word.equals(previousWord)) {
-                System.out.print(word + "., ");
-                count++;
-            }
-            previousWord = word;
-        }
-        System.out.println();
-        System.out.println(badWords.size() - count);
-        for (String word : badWords)
-            System.out.print(word + ", ");
-        System.out.println();
         return badWords.toArray(new String[badWords.size()]);
     }
 
@@ -70,8 +55,8 @@ public class SpellCheck {
 //        for (String word : dictionary) {
 //            dictionaryTST.insert(word);
 //        }
-        dictionaryTST.insertTest("hello");
-
+        dictionaryTST.insert("hello");
+        dictionaryTST.lookUp("hello");
         return null;
     }
 }

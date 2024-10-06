@@ -1,6 +1,6 @@
 public class Node {
     private boolean isFinalLetter;
-    Node[] next;
+    public Node[] next;
 
     public Node (boolean isFinalLetter, Node[] next) {
         this.isFinalLetter = isFinalLetter;
