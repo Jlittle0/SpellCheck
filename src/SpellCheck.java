@@ -24,8 +24,8 @@ public class SpellCheck {
      * @return String[] of all mispelled words in the order they appear in text. No duplicates.
      */
     public String[] checkWords(String[] text, String[] dictionary) {
-        return checkWordsTrie(text, dictionary);
-//        return checkWordsTST(text, dictionary);
+//        return checkWordsTrie(text, dictionary);
+        return checkWordsTST(text, dictionary);
     }
 
     public String[] checkWordsTrie(String[] text, String[] dictionary) {
@@ -56,7 +56,10 @@ public class SpellCheck {
 //            dictionaryTST.insert(word);
 //        }
         dictionaryTST.insert("hello");
-        dictionaryTST.lookUp("hello");
+        dictionaryTST.insert("hippopotomus");
+        System.out.println(dictionaryTST.lookUp("hello"));
+        System.out.println(dictionaryTST.lookUp("hippopotomus"));
+        System.out.println(dictionaryTST.lookUp("hippopotomu"));
         return null;
     }
 }

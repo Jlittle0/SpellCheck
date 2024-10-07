@@ -1,5 +1,5 @@
 public class TSTNode {
-    public TSTNode[] nodes;
+    private TSTNode[] nodes;
     private boolean isFinalLetter;
     private char letter;
 
@@ -13,17 +13,40 @@ public class TSTNode {
         nodes = new TSTNode[3];
     }
 
-    public int findNode(char c) {
+    public TSTNode findNode(char c) {
+        if (c < letter)
+            return nodes[0];
+        else if (c == letter)
+            return nodes[1];
+        else if (c > letter)
+            return nodes[2];
+        else
+            return null;
+    }
+
+    public int findNum(char c) {
         if (c < letter)
             return 0;
         else if (c == letter)
             return 1;
-        else
+        else if (c > letter)
             return 2;
+        else
+            return -1;
     }
 
-    public void setNode(int num, boolean isFinalLetter, char c) {
-        nodes[num] = new TSTNode(isFinalLetter, c);
+    public void setNode(boolean isFinalLetter, char c) {
+        letter = c;
+        this.isFinalLetter = isFinalLetter;
+    }
+
+    public void setChildNode(int num, boolean isFinalLetter, char c) {
+        nodes[num].setLetter(c);
+        nodes[num].setFinalLetter(isFinalLetter);
+    }
+
+    public void addChildNode(int num) {
+        nodes[num] = new TSTNode();
     }
 
     public TSTNode getNode(int num) {
@@ -40,5 +63,9 @@ public class TSTNode {
 
     public boolean isFinal() {
         return isFinalLetter;
+    }
+
+    public void setFinalLetter(boolean isFinal) {
+        isFinalLetter = isFinal;
     }
 }
