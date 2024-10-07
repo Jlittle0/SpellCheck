@@ -13,13 +13,18 @@ public class TST {
     public void insert(String s) {
         if (first) {
             root.setLetter(s.charAt(0));
+            root.setFinalLetter(false);
+            if (s.length() == 1)
+                root.setFinalLetter(true);
+
             first = false;
         }
         TSTNode currentNode = root;
         TSTNode previousNode = currentNode;
         int nextIndex;
         boolean isFinalLetter;
-        for (int i = 0; i < s.length() - 1; i++) {
+        for (int i = 0; i < s.length(); i++) {
+            isFinalLetter = i == s.length() -1 ? true : false;
              nextIndex = 1;
             while (currentNode != null && s.charAt(i) != currentNode.getLetter()) {
                 previousNode = currentNode;
@@ -36,6 +41,9 @@ public class TST {
                 }
                 break;
             }
+            else if (isFinalLetter){
+                currentNode.setFinalLetter(true);
+            }
             else {
                 previousNode = currentNode;
                 currentNode = currentNode.getNode(1);
@@ -45,20 +53,25 @@ public class TST {
 
     public boolean lookUp(String s) {
         TSTNode currentNode = root;
-        TSTNode nextNode;
+        TSTNode previousNode = currentNode;
         int nextIndex;
         boolean isFinal;
-        for (int i = 0; i < s.length() - 1; i++) {
-            isFinal = i == s.length() - 2 ? true : false;
-            nextNode = currentNode.findNode(s.charAt(i));
-            nextIndex = currentNode.findNum(s.charAt(i));
-            if (nextNode == null)
-                return false;
-            if (isFinal) {
-                return nextNode.isFinal();
+        for (int i = 0; i < s.length(); i++) {
+            isFinal = i == s.length() - 1 ? true : false;
+            while (currentNode != null && s.charAt(i) != currentNode.getLetter()) {
+                previousNode = currentNode;
+                nextIndex = currentNode.findNum(s.charAt(i));
+                currentNode = currentNode.getNode(nextIndex);
+            }
+            if (isFinal && currentNode != null) {
+                return currentNode.isFinal();
+            }
+            else if (currentNode == null) {
+                    return false;
             }
             else {
-                currentNode = currentNode.getNode(nextIndex);
+                previousNode = currentNode;
+                currentNode = currentNode.getNode(1);
             }
         }
         return false;
