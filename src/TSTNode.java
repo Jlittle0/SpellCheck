@@ -7,24 +7,8 @@ public class TSTNode {
         nodes = new TSTNode[3];
     }
 
-    public TSTNode(boolean isFinalLetter, char letter) {
-        this.isFinalLetter = isFinalLetter;
-        this.letter = letter;
-        nodes = new TSTNode[3];
-    }
-
-    public TSTNode findNode(char c) {
-        if (c < letter)
-            return nodes[0];
-        else if (c == letter)
-            return nodes[1];
-        else if (c > letter)
-            return nodes[2];
-        else
-            return null;
-    }
-
     public int findNum(char c) {
+        // Determines whether or not to move left, right, or straight down by comparing letters.
         if (c < letter)
             return 0;
         else if (c == letter)
@@ -35,18 +19,14 @@ public class TSTNode {
             return -1;
     }
 
-    public void setNode(boolean isFinalLetter, char c) {
-        letter = c;
-        if (!this.isFinalLetter)
-            this.isFinalLetter = isFinalLetter;
-    }
-
     public void setChildNode(int num, boolean isFinalLetter, char c) {
+        // Sets the status of isFinalLetter and the letter of node at the index num
         nodes[num].setLetter(c);
         nodes[num].setFinalLetter(isFinalLetter);
     }
 
     public void addChildNode(int num) {
+        // When a child node is null but we need to move to it, creates a node to place there.
         nodes[num] = new TSTNode();
     }
 
