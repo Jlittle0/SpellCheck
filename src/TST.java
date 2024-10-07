@@ -30,6 +30,7 @@ public class TST {
         boolean isFinalLetter;
         for (int i = 0; i < s.length(); i++) {
             // For every letter in the word, check whether or not it's the last letter
+            // Might be able to simplify this to remove the ? true : false part but not sure yet.
             isFinalLetter = i == s.length() -1 ? true : false;
              nextIndex = 1;
              // Then find the first instance where we need to accept the current node where it's
