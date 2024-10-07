@@ -16,21 +16,29 @@ public class TST {
             first = false;
         }
         TSTNode currentNode = root;
-        TSTNode nextNode;
+        TSTNode previousNode = currentNode;
         int nextIndex;
         boolean isFinalLetter;
-        for (int i = 0; i < s.length(); i++) {
-            nextNode = currentNode.findNode(s.charAt(i));
-            nextIndex = currentNode.findNum(s.charAt(i));
-            isFinalLetter = i == s.length() -1 ? true : false;
-            if (nextNode == null) {
-                nextIndex = 1;
-                currentNode.addChildNode(nextIndex);
-                currentNode.setNode(isFinalLetter, s.charAt(i));
+        for (int i = 0; i < s.length() - 1; i++) {
+             nextIndex = 1;
+            while (currentNode != null && s.charAt(i) != currentNode.getLetter()) {
+                previousNode = currentNode;
+                nextIndex = currentNode.findNum(s.charAt(i));
                 currentNode = currentNode.getNode(nextIndex);
             }
+            if (currentNode == null) {
+                for (int j = 0; j < s.length() - i; j++) {
+                    isFinalLetter = i + j == s.length() -1 ? true : false;
+                    previousNode.addChildNode(nextIndex);
+                    previousNode.setChildNode(nextIndex, isFinalLetter, s.charAt(i + j));
+                    previousNode = previousNode.getNode(nextIndex);
+                    nextIndex = 1;
+                }
+                break;
+            }
             else {
-                currentNode = currentNode.getNode(nextIndex);;
+                previousNode = currentNode;
+                currentNode = currentNode.getNode(1);
             }
         }
     }
@@ -40,7 +48,6 @@ public class TST {
         TSTNode nextNode;
         int nextIndex;
         boolean isFinal;
-        // Might need to change to just s.length() and not -1.
         for (int i = 0; i < s.length() - 1; i++) {
             isFinal = i == s.length() - 2 ? true : false;
             nextNode = currentNode.findNode(s.charAt(i));

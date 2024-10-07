@@ -37,7 +37,8 @@ public class TSTNode {
 
     public void setNode(boolean isFinalLetter, char c) {
         letter = c;
-        this.isFinalLetter = isFinalLetter;
+        if (!this.isFinalLetter)
+            this.isFinalLetter = isFinalLetter;
     }
 
     public void setChildNode(int num, boolean isFinalLetter, char c) {

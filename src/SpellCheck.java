@@ -57,6 +57,7 @@ public class SpellCheck {
 //        }
         dictionaryTST.insert("hello");
         dictionaryTST.insert("hippopotomus");
+
         System.out.println(dictionaryTST.lookUp("hello"));
         System.out.println(dictionaryTST.lookUp("hippopotomus"));
         System.out.println(dictionaryTST.lookUp("hippopotomu"));
